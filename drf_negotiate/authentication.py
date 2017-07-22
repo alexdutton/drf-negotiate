@@ -1,6 +1,5 @@
-import socket
-
 import base64
+import socket
 
 import gssapi
 from django.contrib.auth import get_user_model
@@ -15,8 +14,7 @@ class NegotiateAuthentication(authentication.BaseAuthentication):
             return
         authorization = request.META.get('HTTP_AUTHORIZATION', '')
         if authorization.startswith('Negotiate '):
-            print(request)
-            host = request.META['SERVER_NAME']
+            host = socket.gethostbyaddr(request.META['SERVER_ADDR'])[0]
             service_name = 'HTTP/{}'.format(host)
             service_name = gssapi.Name(service_name)
 
